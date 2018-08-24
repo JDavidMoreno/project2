@@ -79,11 +79,11 @@ def chat(data):
         # If exist then append the new message else emit a Not success message
         if checkChannel.name == channel:
             time = '{:%H:%M:%S}'.format(datetime.datetime.now())
-
             sender = session["name"]
             checkChannel.newMessage(message, sender, channel, time)
-            messages = checkChannel.messages[-1]
-            emit("update", messages, broadcast=True)
+
+            last_message = checkChannel.messages[-1]
+            emit("update", last_message, broadcast=True)
             return
     emit("update", 'Not success', broadcast=True)
 
