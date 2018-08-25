@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.querySelector('#form').style.display = 'none';
           let h = document.createElement('h3');
           h.innerHTML = 'Welcome ' + data.name + '!';
+          document.querySelector('#user-data').dataset.username = data.name;
           document.querySelector('#DisplayName').append(h);
           document.querySelector('#channelContainer').style.display = '';
         }else{

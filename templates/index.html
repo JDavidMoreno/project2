@@ -29,6 +29,7 @@
   <br>
   <div class="container" id="DisplayName">
     {% if name %}<h2>Hello <span style="color: #65d3fd;">{{ name }}</span>, nice to see you again :)</h2>{% endif %}
+    <div id="user-data" data-username="{{ name }}"></div>
   </div>
 
   <div id="channelContainer" class="container col-md-6" style="{% if name %}{% else %}display: none;{% endif %}" id="createChannel">
@@ -133,7 +134,7 @@
     });
   </script>
   <script id="template" type="text/template">
-    {% raw %}<li class="hiddingMessage message">{{time}} | {{sender}} says: <span id="justMessage">{{message}}</span> &nbsp &nbsp <span class="delete" style="visibility: hidden;"><img style="width: 15px; height: 15px;" src="static/x-icon.png" alt="delete message"></span></li>{% endraw %}
+    {% raw %}<li data-sender="{{ sender }}" class="hiddingMessage message">{{time}} | {{sender}} says: <span id="justMessage">{{message}}</span> &nbsp &nbsp <span class="delete" style="visibility: hidden;"><img style="width: 15px; height: 15px;" src="static/x-icon.png" alt="delete message"></span></li>{% endraw %}
   </script>
   <script>
     // THIS IS FOR START USING INSTANT CHAT MESSAGING WITH SOCKET
@@ -203,13 +204,17 @@
       }
     });
     // Update all olds messages. This is a response from the emit('update') above
-    socket.on('updateChat', data => {
+    socket.on('updateChat', function(data, name) {
       if (data != 'notFound'){
-        for (var i = 0; i < data.length; i++){
+        let username = document.querySelector('#user-data').dataset.username;
 
-          if (data[i].message != null){
-            oldLi = template({"time": data[i].time, "sender": data[i].sender, "message": data[i].message});
-            chatMessages.innerHTML += oldLi;
+        if (name == username) {
+          for (var i = 0; i < data.length; i++){
+
+            if (data[i].message != null){
+              oldLi = template({"time": data[i].time, "sender": data[i].sender, "message": data[i].message});
+              chatMessages.innerHTML += oldLi;
+            }
           }
         }
       }else{
@@ -229,7 +234,9 @@
 
         cancel.forEach(elem => {
           elem.parentElement.onmouseover = () => {
-          elem.style.visibility = "visible";
+            if (elem.parentElement.dataset.sender == document.querySelector('#user-data').dataset.username) {
+              elem.style.visibility = "visible";
+            }
           }
           elem.parentElement.onmouseout = () => {
           elem.style.visibility = "hidden";

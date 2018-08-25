@@ -40,4 +40,8 @@ Finally in *templates* there are just two files. *layout.html* is used to establ
 
 In index there are many lines not just in HTML but also in JavaScript. There are severals forms, one for introduce the username, other for creating a new channel and the third for typing and sending messages.
 
-Channel room is a `div`, within this div there is another `div` that contain an unordered list with `id` *chatMessages*. This is where all new messages are appended. At the end of the file we find the two big scripts with comments that help understand how the Channel name is provided and how messages are sent and received. 
+Channel room is a `div`, within this div there is another `div` that contain an unordered list with `id` *chatMessages*. This is where all new messages are appended. At the end of the file we find the two big scripts with comments that help understand how the Channel name is provided and how messages are sent and received.
+
+**Personal Touch**
+
+My personal touch in this project was to implement the option of deleting your own messages. An X appear close to the message when hover with the pointer and the message disappears with a css animation. The message is removed from the database.

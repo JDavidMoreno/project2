@@ -1,7 +1,7 @@
 import os
 import datetime
 from flask import Flask, render_template, redirect, jsonify, request, url_for, session
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send
 from flask_session import Session
 from channels import Channel
 
@@ -95,7 +95,8 @@ def conect(data):
         # If exist, charge all old messages stored there and emit
         if checkChannel.name == channel:
             oldMessages = checkChannel.messages
-            emit("updateChat", oldMessages, broadcast=True)
+            name = session["name"]
+            emit("updateChat", (oldMessages, name), broadcast=True)
             return
     # Else, emit a notFound message
     emit("updateChat", 'notFound', broadcast=True)

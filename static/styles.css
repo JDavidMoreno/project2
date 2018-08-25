@@ -69,3 +69,7 @@ div.chatMessages{
 .message {
   font-size: 0.9rem;
 }
+
+.delete {
+  cursor: pointer;
+}
